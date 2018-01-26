@@ -25,6 +25,7 @@
     "normalize.css": "^7.0.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
+    "passport-github2": "^0.1.11",
     "pretty-error": "^2.1.1",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.1",

@@ -112,11 +112,21 @@
   background: #2795e9;
 }
 
+.github {
+  border-color: #000;
+  background: #000;
+  composes: button;
+}
+
+.github:hover {
+  background: #333;
+}
+
 .icon {
   display: inline-block;
   margin: -2px 12px -2px 0;
-  width: 20px;
-  height: 20px;
+  width: 23px;
+  height: 23px;
   vertical-align: middle;
   fill: currentColor;
 }

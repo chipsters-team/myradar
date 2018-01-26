@@ -1,7 +1,5 @@
 /**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
+ * Copyright © 2018-present Chipsters Team. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -14,56 +12,48 @@
  */
 
 import passport from 'passport';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
-import { User, UserLogin, UserClaim, UserProfile } from './data/models';
-import config from './config';
+import { Strategy as GitHubStrategy } from 'passport-github2';
+import { User, UserLogin, UserClaim, UserProfile } from '../data/models';
+import config from '../config';
 
 /**
- * Sign in with Facebook.
+ * Sign in with GitHub.
  */
 passport.use(
-  new FacebookStrategy(
+  new GitHubStrategy(
     {
-      clientID: config.auth.facebook.id,
-      clientSecret: config.auth.facebook.secret,
-      callbackURL: '/login/facebook/return',
-      profileFields: [
-        'displayName',
-        'name',
-        'email',
-        'link',
-        'locale',
-        'timezone',
-      ],
+      clientID: config.auth.github.clientID,
+      clientSecret: config.auth.github.clientSecret,
+      callbackURL: config.auth.github.callbackURL,
+      scope: config.auth.github.scope,
       passReqToCallback: true,
     },
     (req, accessToken, refreshToken, profile, done) => {
       /* eslint-disable no-underscore-dangle */
-      const loginName = 'facebook';
-      const claimType = 'urn:facebook:access_token';
+      const providerName = 'github';
+      const claimType = 'urn:github:access_token';
       const fooBar = async () => {
         if (req.user) {
           const userLogin = await UserLogin.findOne({
             attributes: ['name', 'key'],
-            where: { name: loginName, key: profile.id },
+            where: { name: profile.provider, key: profile.id },
           });
+
           if (userLogin) {
-            // There is already a Facebook account that belongs to you.
+            // There is already a GitHub account that belongs to you.
             // Sign in with that account or delete it, then link it with your current account.
+
             done();
           } else {
             const user = await User.create(
               {
-                id: req.user.id,
+                // id: req.user.id,
                 email: profile._json.email,
-                logins: [{ name: loginName, key: profile.id }],
-                claims: [{ type: claimType, value: profile.id }],
+                logins: [{ name: providerName, key: profile.id }],
+                claims: [{ type: claimType, value: accessToken }],
                 profile: {
                   displayName: profile.displayName,
-                  gender: profile._json.gender,
-                  picture: `https://graph.facebook.com/${
-                    profile.id
-                  }/picture?type=large`,
+                  picture: profile._json.avatar_url,
                 },
               },
               {
@@ -82,7 +72,10 @@ passport.use(
         } else {
           const users = await User.findAll({
             attributes: ['id', 'email'],
-            where: { '$logins.name$': loginName, '$logins.key$': profile.id },
+            where: {
+              '$logins.name$': profile.provider,
+              '$logins.key$': profile.id,
+            },
             include: [
               {
                 attributes: ['name', 'key'],
@@ -97,25 +90,22 @@ passport.use(
             done(null, user);
           } else {
             let user = await User.findOne({
-              where: { email: profile._json.email },
+              where: { email: profile._json ? profile._json.email : '' },
             });
             if (user) {
               // There is already an account using this email address. Sign in to
-              // that account and link it with Facebook manually from Account Settings.
+              // that account and link it with GitHub manually from Account Settings.
               done(null);
             } else {
               user = await User.create(
                 {
-                  email: profile._json.email,
-                  emailConfirmed: true,
-                  logins: [{ name: loginName, key: profile.id }],
+                  email: profile._json ? profile._json.email : null,
+                  emailConfirmed: profile._json ? !!profile._json.email : false,
+                  logins: [{ name: providerName, key: profile.id }],
                   claims: [{ type: claimType, value: accessToken }],
                   profile: {
                     displayName: profile.displayName,
-                    gender: profile._json.gender,
-                    picture: `https://graph.facebook.com/${
-                      profile.id
-                    }/picture?type=large`,
+                    picture: profile._json ? profile._json.avatar_url : null,
                   },
                 },
                 {
@@ -134,10 +124,12 @@ passport.use(
           }
         }
       };
-
       fooBar().catch(done);
     },
   ),
 );
+
+// serialize user into the session
+// init();
 
 export default passport;

@@ -42,6 +42,16 @@ module.exports = {
   auth: {
     jwt: { secret: process.env.JWT_SECRET || 'React Starter Kit' },
 
+    // https://developer.github.com/v3/
+    github: {
+      clientID: process.env.GITHUB_APP_CLIENT_ID || '8a026c40582cd80356e1',
+      clientSecret:
+        process.env.GITHUB_APP_CLIENT_SECRET ||
+        '947f0f72028ea1b204406e028900260b05a88509',
+      callBackURL: '/login/github/callback',
+      scope: ['read:user'],
+    },
+
     // https://developers.facebook.com/
     facebook: {
       id: process.env.FACEBOOK_APP_ID || '186244551745631',
