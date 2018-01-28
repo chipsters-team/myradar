@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt';
 import expressGraphQL from 'express-graphql';
+import expressSession from 'express-session';
 import jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
 import React from 'react';
@@ -25,6 +26,7 @@ import errorPageStyle from './routes/error/ErrorPage.css';
 import createFetch from './createFetch';
 import passportFacebook from './auth/facebook';
 import passportGithub from './auth/github';
+import passportTwitter from './auth/twitter';
 import router from './router';
 import models from './data/models';
 import schema from './data/schema';
@@ -69,8 +71,18 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+app.use(
+  expressSession({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
+
 app.use(passportFacebook.initialize());
 app.use(passportGithub.initialize());
+app.use(passportTwitter.initialize());
+app.use(passportTwitter.session());
 
 if (__DEV__) {
   app.enable('trust proxy');
@@ -116,6 +128,26 @@ app.get(
   },
 );
 
+app.get(
+  '/login/twitter',
+  passportTwitter.authenticate('twitter', {
+    session: false,
+  }),
+);
+app.get(
+  '/login/twitter/callback',
+  passportTwitter.authenticate('twitter', {
+    failureRedirect: '/login',
+    session: false,
+  }),
+  (req, res) => {
+    const expiresIn = 60 * 60 * 24 * 180; // 180 days
+    const token = jwt.sign(req.user, config.auth.jwt.secret, { expiresIn });
+    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  },
+);
 //
 // Register API middleware
 // -----------------------------------------------------------------------------

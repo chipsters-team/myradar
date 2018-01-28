@@ -69,10 +69,12 @@ module.exports = {
 
     // https://apps.twitter.com/
     twitter: {
-      key: process.env.TWITTER_CONSUMER_KEY || 'Ie20AZvLJI2lQD5Dsgxgjauns',
+      key: process.env.TWITTER_CONSUMER_KEY || 'ltzBuQKIQSx5KwXYYGhLH7jXp', // 'Ie20AZvLJI2lQD5Dsgxgjauns',
       secret:
         process.env.TWITTER_CONSUMER_SECRET ||
-        'KTZ6cxoKnEakQCeSpZlaUCJWGAlTEBJj0y2EMkUBujA7zWSvaQ',
+        'Tw53Xou2VImipVsoNkinghVz4d9BJbi6NqY7TFVLek2cNc5Sb8',
+      // 'KTZ6cxoKnEakQCeSpZlaUCJWGAlTEBJj0y2EMkUBujA7zWSvaQ',
+      callBackURL: '/login/twitter/callback',
     },
   },
 };
