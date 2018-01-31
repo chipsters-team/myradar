@@ -63,8 +63,9 @@ module.exports = {
     google: {
       id:
         process.env.GOOGLE_CLIENT_ID ||
-        '251410730550-ahcg0ou5mgfhl8hlui1urru7jn5s12km.apps.googleusercontent.com',
-      secret: process.env.GOOGLE_CLIENT_SECRET || 'Y8yR9yZAhm9jQ8FKAL8QIEcd',
+        '238407403217-7qudnd9ap1avstn5t7vorog9dem8l3i3.apps.googleusercontent.com',
+      secret: process.env.GOOGLE_CLIENT_SECRET || 'MdfB6pZoT2Ey1Uf-mq3XT5vW',
+      callBackURL: 'http://127.0.0.1:3000/login/google/callback',
     },
 
     // https://apps.twitter.com/

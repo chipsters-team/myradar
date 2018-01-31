@@ -14,6 +14,7 @@ const sequelize = new Sequelize(config.databaseUrl, {
   define: {
     freezeTableName: true,
   },
+  operatorsAliases: false,
 });
 
 export default sequelize;

@@ -27,6 +27,7 @@ import createFetch from './createFetch';
 import passportFacebook from './auth/facebook';
 import passportGithub from './auth/github';
 import passportTwitter from './auth/twitter';
+import passportGoogle from './auth/google';
 import router from './router';
 import models from './data/models';
 import schema from './data/schema';
@@ -80,6 +81,7 @@ app.use(
 );
 
 app.use(passportFacebook.initialize());
+app.use(passportGoogle.initialize());
 app.use(passportGithub.initialize());
 app.use(passportTwitter.initialize());
 app.use(passportTwitter.session());
@@ -148,7 +150,25 @@ app.get(
     res.redirect('/');
   },
 );
-//
+
+app.get(
+  '/login/google',
+  passportGoogle.authenticate('google', {
+    scope: ['profile'],
+  }),
+);
+
+app.get(
+  '/login/google/callback',
+  passportGoogle.authenticate('google', {
+    failureRedirect: '/login',
+    session: false,
+  }),
+  (req, res) => {
+    res.redirect('/');
+  },
+);
+
 // Register API middleware
 // -----------------------------------------------------------------------------
 app.use(
