@@ -54,9 +54,10 @@ module.exports = {
 
     // https://developers.facebook.com/
     facebook: {
-      id: process.env.FACEBOOK_APP_ID || '186244551745631',
+      id: process.env.FACEBOOK_APP_ID || '902934803200718',
       secret:
-        process.env.FACEBOOK_APP_SECRET || 'a970ae3240ab4b9b8aae0f9f0661c6fc',
+        process.env.FACEBOOK_APP_SECRET || '3b2e9c38cbd19375172a5547319cdd6b',
+      callBackURL: 'http://127.0.0.1:3000/login/facebook/callback',
     },
 
     // https://cloud.google.com/console/project

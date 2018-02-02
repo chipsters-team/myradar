@@ -26,15 +26,7 @@ passport.use(
     {
       clientID: config.auth.facebook.id,
       clientSecret: config.auth.facebook.secret,
-      callbackURL: '/login/facebook/return',
-      profileFields: [
-        'displayName',
-        'name',
-        'email',
-        'link',
-        'locale',
-        'timezone',
-      ],
+      callbackURL: 'http://127.0.0.1:3000/login/facebook/callback',
       passReqToCallback: true,
     },
     (req, accessToken, refreshToken, profile, done) => {
@@ -61,9 +53,7 @@ passport.use(
                 profile: {
                   displayName: profile.displayName,
                   gender: profile._json.gender,
-                  picture: `https://graph.facebook.com/${
-                    profile.id
-                  }/picture?type=large`,
+                  picture: profile._json.avatar_url,
                 },
               },
               {
@@ -113,9 +103,7 @@ passport.use(
                   profile: {
                     displayName: profile.displayName,
                     gender: profile._json.gender,
-                    picture: `https://graph.facebook.com/${
-                      profile.id
-                    }/picture?type=large`,
+                    picture: profile._json ? profile._json.avatar_url : null,
                   },
                 },
                 {

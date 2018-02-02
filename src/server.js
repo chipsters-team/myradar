@@ -89,13 +89,9 @@ app.use(passportTwitter.session());
 if (__DEV__) {
   app.enable('trust proxy');
 }
-app.get(
-  '/login/facebook',
-  passportFacebook.authenticate('facebook', {
-    scope: ['email', 'user_location'],
-    session: false,
-  }),
-);
+
+app.get('/login/facebook', passportFacebook.authenticate('facebook'));
+
 app.get(
   '/login/facebook/return',
   passportFacebook.authenticate('facebook', {
