@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
@@ -16,11 +17,22 @@ import logoUrl from './logo-small.png';
 import logoUrl2x from './logo-small@2x.png';
 
 class Header extends React.Component {
+  static contextTypes = {
+    user: PropTypes.shape({
+      id: PropTypes.string,
+      email: PropTypes.string,
+    }),
+  };
+
+  getContext() {
+    return { user: this.state.user };
+  }
+
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <Navigation />
+          <Navigation user={this.context.user} />
           <Link className={s.brand} to="/">
             <img
               src={logoUrl}
@@ -32,8 +44,11 @@ class Header extends React.Component {
             <span className={s.brandTxt}>Your Company</span>
           </Link>
           <div className={s.banner}>
-            <h1 className={s.bannerTitle}>React</h1>
-            <p className={s.bannerDesc}>Complex web apps made easy</p>
+            <h1 className={s.bannerTitle}>My Tech Radar</h1>
+            <h3>{this.context.user ? this.context.user.id : ''}</h3>
+            <p className={s.bannerDesc}>
+              View, plan, progress and fun yourself with tech
+            </p>
           </div>
         </div>
       </div>

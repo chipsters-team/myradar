@@ -16,6 +16,10 @@ const ContextType = {
   insertCss: PropTypes.func.isRequired,
   // Universal HTTP client
   fetch: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    email: PropTypes.string,
+  }),
 };
 
 /**
@@ -48,8 +52,28 @@ class App extends React.PureComponent {
 
   static childContextTypes = ContextType;
 
+  constructor(props) {
+    super(props);
+    this.state = { user: null };
+  }
+
   getChildContext() {
-    return this.props.context;
+    return { ...this.props.context, user: this.state.user };
+  }
+
+  async componentDidMount() {
+    const resp = await this.props.context.fetch('/graphql', {
+      body: JSON.stringify({
+        query: '{me{id,email}}',
+      }),
+    });
+    const { data } = await resp.json();
+    if (!data || !data.me) throw new Error('Failed to load user profile.');
+    (() => {
+      this.setState({
+        user: data.me || null,
+      });
+    })();
   }
 
   render() {
