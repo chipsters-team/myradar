@@ -39,7 +39,7 @@ class Navigation extends React.Component {
           Contact
         </Link>
         <span className={s.spacer}> | </span>
-        <span className={s.spacer}> {user ? user.id : ''} </span>
+        <span className={s.spacer}> {user ? user.displayName : ''} </span>
         {!user && (
           <span>
             <Link className={s.link} to="/login">

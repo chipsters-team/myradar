@@ -64,7 +64,7 @@ class App extends React.PureComponent {
   async componentDidMount() {
     const resp = await this.props.context.fetch('/graphql', {
       body: JSON.stringify({
-        query: '{me{id,email}}',
+        query: '{me{id,email,displayName}}',
       }),
     });
     const { data } = await resp.json();

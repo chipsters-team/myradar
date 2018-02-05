@@ -38,11 +38,9 @@ passport.use(
             attributes: ['name', 'key'],
             where: { name: profile.provider, key: profile.id },
           });
-
           if (userLogin) {
             // There is already a GitHub account that belongs to you.
             // Sign in with that account or delete it, then link it with your current account.
-
             done();
           } else {
             const user = await User.create(
@@ -66,6 +64,7 @@ passport.use(
             done(null, {
               id: user.id,
               email: user.email,
+              displayName: user.profile.displayName,
             });
           }
         } else {
@@ -80,6 +79,12 @@ passport.use(
                 attributes: ['name', 'key'],
                 model: UserLogin,
                 as: 'logins',
+                required: true,
+              },
+              {
+                attributes: ['displayName', 'picture'],
+                model: UserProfile,
+                as: 'profile',
                 required: true,
               },
             ],
@@ -118,6 +123,7 @@ passport.use(
               done(null, {
                 id: user.id,
                 email: user.email,
+                displayName: user.profile.displayName,
               });
             }
           }

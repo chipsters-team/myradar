@@ -45,7 +45,9 @@ class Header extends React.Component {
           </Link>
           <div className={s.banner}>
             <h1 className={s.bannerTitle}>My Tech Radar</h1>
-            <h3>{this.context.user ? this.context.user.id : ''}</h3>
+            <h3>
+              Olá {this.context.user ? this.context.user.displayName : ''}
+            </h3>
             <p className={s.bannerDesc}>
               View, plan, progress and fun yourself with tech
             </p>
