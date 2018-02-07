@@ -78,6 +78,7 @@ module.exports = {
   // rootDir: // [string]
   // roots: // [array<string>]
   // setupFiles: // [array]
+  setupFiles: ['<rootDir>/jest.init.js'],
   // setupTestFrameworkScriptFile: // [string]
   // snapshotSerializers: // [array<string>]
   // testEnvironment: // [string]

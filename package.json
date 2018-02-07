@@ -6,14 +6,9 @@
     "node": ">=6.5",
     "npm": ">=3.10"
   },
-  "browserslist": [
-    ">1%",
-    "last 4 versions",
-    "Firefox ESR",
-    "not ie < 9"
-  ],
+  "browserslist": [">1%", "last 4 versions", "Firefox ESR", "not ie < 9"],
   "dependencies": {
-    "@babel/polyfill": "7.0.0-beta.36",
+    "@babel/polyfill": "^7.0.0-beta.39",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "classnames": "^2.2.5",
@@ -62,6 +57,7 @@
     "babel-jest": "^22.0.4",
     "babel-loader": "8.0.0-beta.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.12",
+    "babel-polyfill": "^6.26.0",
     "browser-sync": "^2.21.0",
     "chokidar": "^1.7.0",
     "css-loader": "^0.28.7",
@@ -124,18 +120,9 @@
     "webpack-node-externals": "^1.6.0"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --no-ignore --fix",
-      "git add --force"
-    ],
-    "*.{json,md,graphql}": [
-      "prettier --write",
-      "git add --force"
-    ],
-    "*.{css,less,styl,scss,sass,sss}": [
-      "stylelint --fix",
-      "git add --force"
-    ]
+    "*.{js,jsx}": ["eslint --no-ignore --fix", "git add --force"],
+    "*.{json,md,graphql}": ["prettier --write", "git add --force"],
+    "*.{css,less,styl,scss,sass,sss}": ["stylelint --fix", "git add --force"]
   },
   "scripts": {
     "precommit": "lint-staged",

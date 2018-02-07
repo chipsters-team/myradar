@@ -31,25 +31,34 @@ exports[`Layout renders children correctly 1`] = `
         >
            | 
         </span>
-        <a
-          className="link"
-          href="/login"
-          onClick={[Function]}
-        >
-          Log in
-        </a>
         <span
           className="spacer"
         >
-          or
+           
+          
+           
         </span>
-        <a
-          className="link highlight"
-          href="/register"
-          onClick={[Function]}
-        >
-          Sign up
-        </a>
+        <span>
+          <a
+            className="link"
+            href="/login"
+            onClick={[Function]}
+          >
+            Log in
+          </a>
+          <span
+            className="spacer"
+          >
+            or
+          </span>
+          <a
+            className="link highlight"
+            href="/register"
+            onClick={[Function]}
+          >
+            Sign up
+          </a>
+        </span>
       </div>
       <a
         className="brand"
@@ -75,12 +84,16 @@ exports[`Layout renders children correctly 1`] = `
         <h1
           className="bannerTitle"
         >
-          React
+          My Tech Radar
         </h1>
+        <h3>
+          Olá 
+          
+        </h3>
         <p
           className="bannerDesc"
         >
-          Complex web apps made easy
+          View, plan, progress and fun yourself with tech
         </p>
       </div>
     </div>
