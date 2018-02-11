@@ -55,6 +55,7 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { user: null };
+    this.console = console;
   }
 
   getChildContext() {
@@ -62,18 +63,22 @@ class App extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const resp = await this.props.context.fetch('/graphql', {
-      body: JSON.stringify({
-        query: '{me{id,email,displayName}}',
-      }),
-    });
-    const { data } = await resp.json();
-    if (!data || !data.me) throw new Error('Failed to load user profile.');
-    (() => {
-      this.setState({
-        user: data.me || null,
+    try {
+      const resp = await this.props.context.fetch('/graphql', {
+        body: JSON.stringify({
+          query: '{me{id,email,displayName}}',
+        }),
       });
-    })();
+      const { data } = await resp.json();
+      if (!data || !data.me) throw new Error('Failed to load user profile.');
+      (() => {
+        this.setState({
+          user: data.me || null,
+        });
+      })();
+    } catch (err) {
+      this.console.warn(err.message);
+    }
   }
 
   render() {

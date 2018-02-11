@@ -69,6 +69,7 @@ passport.use(
             done(null, {
               id: user.id,
               email: user.email,
+              displayName: user.profile.displayName,
             });
           }
         } else {
@@ -83,6 +84,12 @@ passport.use(
                 attributes: ['name', 'key'],
                 model: UserLogin,
                 as: 'logins',
+                required: true,
+              },
+              {
+                attributes: ['displayName', 'picture'],
+                model: UserProfile,
+                as: 'profile',
                 required: true,
               },
             ],
@@ -121,6 +128,7 @@ passport.use(
               done(null, {
                 id: user.id,
                 email: user.email,
+                displayName: user.profile.displayName,
               });
             }
           }
