@@ -15,6 +15,10 @@ import s from './Navigation.css';
 import Link from '../Link';
 
 class Navigation extends React.Component {
+  static contextTypes = {
+    fetch: PropTypes.func,
+  };
+
   static propTypes = {
     user: PropTypes.shape({
       id: PropTypes.string,
@@ -52,9 +56,9 @@ class Navigation extends React.Component {
           </span>
         )}
         {user && (
-          <Link className={s.link} to="/logout">
+          <a className={s.link} href="/logout">
             Log out
-          </Link>
+          </a>
         )}
       </div>
     );

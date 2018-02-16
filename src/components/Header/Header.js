@@ -24,10 +24,6 @@ class Header extends React.Component {
     }),
   };
 
-  getContext() {
-    return { user: this.state.user };
-  }
-
   render() {
     return (
       <div className={s.root}>

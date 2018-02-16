@@ -11,6 +11,7 @@ import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import passport from 'passport';
 import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt';
 import expressGraphQL from 'express-graphql';
 import expressSession from 'express-session';
@@ -80,11 +81,8 @@ app.use(
   }),
 );
 
-app.use(passportFacebook.initialize());
-app.use(passportGoogle.initialize());
-app.use(passportGithub.initialize());
-app.use(passportTwitter.initialize());
-app.use(passportTwitter.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 if (__DEV__) {
   app.enable('trust proxy');
@@ -164,6 +162,15 @@ app.get(
     res.redirect('/');
   },
 );
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) throw err;
+    req.logout();
+    res.clearCookie('id_token');
+    res.redirect('/');
+  });
+});
 
 // Register API middleware
 // -----------------------------------------------------------------------------
